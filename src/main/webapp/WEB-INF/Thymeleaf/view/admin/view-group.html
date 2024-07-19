@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+ <title>View Group</title>
+ <link rel="stylesheet" th:href="@{/assets/plugins/datatables/datatables.min.css}">
+ <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+ <link th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/feather/feather.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/icons/flags/flags.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/fontawesome/css/all.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="main-wrapper">
+ <div th:replace="/admin/fragmento :: header"></div>
+ <div th:replace="/admin/fragmento :: sidebar"></div>
+
+ <div class="page-wrapper">
+  <div class="content container-fluid">
+
+   <div class="page-header">
+    <div class="row align-items-center">
+     <div class="col">
+      <h3 class="page-title">Détails du Groupe</h3>
+      <ul class="breadcrumb">
+       <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+       <li class="breadcrumb-item"><a href="/admin/grp">Groupes</a></li>
+       <li class="breadcrumb-item active">Détails du Groupe</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+
+   <div class="row">
+    <div class="col-lg-8 col-md-8">
+     <div class="card">
+      <div class="card-body">
+       <h4 class="card-title">Informations sur le Groupe</h4>
+       <div class="table-responsive">
+        <table class="table table-borderless">
+         <tbody>
+         <tr>
+          <td>ID:</td>
+          <td th:text="${groupe.idgroup}"></td>
+         </tr>
+         <tr>
+          <td>Nom du Groupe:</td>
+          <td th:text="${groupe.nomgroup}"></td>
+         </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+
+     <div class="card">
+      <div class="card-body">
+       <h4 class="card-title">Enseignants</h4>
+       <div class="table-responsive">
+        <table class="table table-hover">
+         <thead>
+         <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+
+         </tr>
+         </thead>
+         <tbody>
+         <tr th:each="enseignant : ${groupe.enseignants}">
+          <td th:text="${enseignant.idPersonnel}"></td>
+          <td th:text="${enseignant.nom}"></td>
+          <td th:text="${enseignant.prenom}"></td>
+
+         </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <footer>
+   <p>Copyright © 2025 Ouahassoune.</p>
+  </footer>
+
+ </div>
+</div>
+
+<script th:src="@{/resources/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/feather.min.js}"></script>
+<script th:src="@{/resources/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/resources/js/script.js}"></script>
+<script th:src="@{/assets/plugins/datatables/datatables.min.js}"></script>
+</body>
+</html>

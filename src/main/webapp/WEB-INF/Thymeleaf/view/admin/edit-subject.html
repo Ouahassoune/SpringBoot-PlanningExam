@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>Edit Subject</title>
+
+    <link rel="stylesheet" th:href="@{/assets/plugins/datatables/datatables.min.css}">
+    <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/feather/feather.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/icons/flags/flags.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="main-wrapper">
+
+
+    <div th:replace="/admin/fragmento :: header"></div>
+    <div th:replace="/admin/fragmento :: sidebar"></div>
+
+
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Edit Subject</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/admin/elements}">Subjects</a></li>
+                            <li class="breadcrumb-item active">Edit Subject</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form th:action="@{/admin/elementsupdate}" method="post">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="form-title"><span>Subject Information</span></h5>
+                                    </div>
+                                    <input type="hidden" name="idEP" th:value="${element.idEP}">
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Subject Name <span class="login-danger">*</span></label>
+                                            <input type="text" name="titre" class="form-control" th:value="${element.titre}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Class <span class="login-danger">*</span></label>
+                                            <select name="niveauid" class="form-control">
+                                                <option th:each="niveau : ${niveaux}" th:value="${niveau.idNiveau}" th:text="${niveau.titre}" th:selected="${niveau.idNiveau} == ${element.niveau?.idNiveau}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Type <span class="login-danger">*</span></label>
+                                            <select name="typeId" class="form-control">
+                                                <option th:each="typeElement : ${types}" th:value="${typeElement.idType}" th:text="${typeElement.titre}" th:selected="${typeElement.idType == element.type?.idType}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Enseignant <span class="login-danger">*</span></label>
+                                            <select name="enseignantid" class="form-control">
+                                                <option th:each="enseignant : ${enseignants}" th:value="${enseignant.idPersonnel}" th:text="${enseignant.nom} + ' ' + ${enseignant.prenom}" th:selected="${enseignant.idPersonnel == element.enseignant?.idPersonnel}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Coordinateur <span class="login-danger">*</span></label>
+                                            <select name="coordinateurId" class="form-control">
+                                                <option th:each="coordinateur : ${enseignants}" th:value="${coordinateur.idPersonnel}" th:text="${coordinateur.nom} + ' ' + ${coordinateur.prenom}" th:selected="${coordinateur.idPersonnel == element.coordinateur.idPersonnel}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="student-submit">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="/admin/fragmento :: footer"></div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script th:src="@{/resources/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/feather.min.js}"></script>
+<script th:src="@{/resources/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/resources/js/script.js}"></script>
+<script th:src="@{/assets/plugins/datatables/datatables.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+ <title>Preskool - Ajouter/Modifier Personnel</title>
+
+ <link rel="stylesheet" th:href="@{/resources/plugins/datatables/datatables.min.css}">
+ <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+ <link th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/feather/feather.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/icons/flags/flags.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/plugins/fontawesome/css/all.min.css}" rel="stylesheet">
+ <link th:href="@{/resources/css/style.css}" rel="stylesheet">
+ <link rel="stylesheet" th:href="@{/resources/plugins/select2/css/select2.min.css}">
+</head>
+<body>
+
+<div class="main-wrapper">
+ <div th:replace="/admin/fragmento :: header"></div>
+ <div th:replace="/admin/fragmento :: sidebar"></div>
+
+ <div class="page-wrapper">
+  <div class="content container-fluid">
+   <div class="page-header">
+    <div class="row align-items-center">
+     <div class="col">
+      <h3 class="page-title" th:text="${action == 'add'} ? 'Ajouter Personnel' : 'Modifier Personnel'"></h3>
+     </div>
+    </div>
+   </div>
+
+   <div class="row">
+    <div class="col-sm-12">
+     <div class="card">
+      <div class="card-body">
+       <form th:action="@{${action == 'add'} ? '/admin/save' : '/admin/update'}" method="post">
+        <input type="hidden" name="type" th:value="${type}">
+        <input type="hidden" name="id" th:if="${action == 'edit'}" th:value="${personnel.idPersonnel}">
+
+        <div class="col-12 col-sm-6">
+         <div class="form-group local-forms">
+          <label>Nom <span class="login-danger">*</span></label>
+          <input type="text" class="form-control" name="nom" th:value="${personnel.nom}">
+         </div>
+        </div>
+        <div class="col-12 col-sm-6">
+         <div class="form-group local-forms">
+          <label>Prénom <span class="login-danger">*</span></label>
+          <input type="text" class="form-control" name="prenom" th:value="${personnel.prenom}">
+         </div>
+        </div>
+        <div class="col-12 col-sm-6" th:if="${type == 'enseignant'}">
+         <div class="form-group local-forms">
+          <label>Filière <span class="login-danger">*</span></label>
+          <select class="form-control" name="filliereId">
+           <option th:each="filliere : ${filieres}" th:value="${filliere.id}" th:text="${filliere.nom}" th:selected="${personnel.filliere?.id == filliere.id}"></option>
+          </select>
+         </div>
+        </div>
+        <div class="col-12 col-sm-6" th:if="${type == 'enseignant'}">
+         <div class="form-group local-forms">
+          <label>Département <span class="login-danger">*</span></label>
+          <select class="form-control" name="departementId">
+           <option th:each="departement : ${departements}" th:value="${departement.id}" th:text="${departement.nom}" th:selected="${personnel.departement?.id == departement.id}"></option>
+          </select>
+         </div>
+        </div>
+        <div class="form-group">
+         <button type="submit" class="btn btn-primary" th:text="${action == 'add'} ? 'Ajouter' : 'Modifier'"></button>
+        </div>
+       </form>
+       <a th:href="@{/admin/personnel}" class="btn btn-secondary">Retour à la liste</a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script th:src="@{/resources/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/feather.min.js}"></script>
+<script th:src="@{/resources/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/resources/js/script.js}"></script>
+<script th:src="@{/resources/plugins/datatables/datatables.min.js}"></script>
+<script th:src="@{/resources/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/resources/plugins/select2/js/select2.min.js}"></script>
+
+<script>
+ $(document).ready(function() {
+  $('.select2').select2();
+ });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Groupe Add</title>
+
+    <link rel="stylesheet" th:href="@{/assets/plugins/datatables/datatables.min.css}">
+    <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/feather/feather.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/icons/flags/flags.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/css/style.css}" rel="stylesheet">
+    <style>
+        /* Styles supplémentaires pour la sélection multiple */
+
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+    <div th:replace="/admin/fragmento :: header"></div>
+    <div th:replace="/admin/fragmento :: sidebar"></div>
+
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Add Groupe</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="Groupes.html">Groupe</a></li>
+                            <li class="breadcrumb-item active">Add Groupe</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form th:action="@{/admin/savegrp}" th:object="${groupe}" method="post">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="form-title"><span>Groupe Ajout</span></h5>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Nom Groupe<span class="login-danger">*</span></label>
+                                            <input type="text" class="form-control" th:field="${groupe.nomgroup}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Critère de sélection <span class="login-danger">*</span></label>
+                                            <select id="critere" name="critere" class="form-control" onchange="toggleCritereOptions()">
+                                                <option value="none">Aucun</option>
+                                                <option value="departement">Département</option>
+                                                <option value="filiere">Filière</option>
+                                                <option value="arbitraire">Arbitraire</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4" id="departementSelect" style="display:none;">
+                                        <div class="form-group local-forms">
+                                            <label>Département <span class="login-danger">*</span></label>
+                                            <select name="departementId" class="form-control">
+                                                <option th:each="departement : ${departements}" th:value="${departement.departementId}" th:text="${departement.nom}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4" id="filiereSelect" style="display:none;">
+                                        <div class="form-group local-forms">
+                                            <label>Filière <span class="login-danger">*</span></label>
+                                            <select name="filiereId" class="form-control">
+                                                <option th:each="filiere : ${filieres}" th:value="${filiere.filliereId}" th:text="${filiere.nom}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12" id="arbitraireSelect" >
+                                        <div class="form-group ">
+<!--                                            <label>Nom enseignant <span class="login-danger">*</span></label>-->
+                                            <div class="multipleSelection">
+                                                <div class="selectBox" onclick="showCheckboxes()">
+                                                    <p class="mb-0">Selectionner l'enseignant</p>
+                                                    <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                                                </div>
+                                                <div id="checkBoxes-one" class="checkboxes">
+                                                    <div class="selectBox-cont">
+                                                        <label th:each="enseignant : ${enseignants}" class="custom_check w-100">
+                                                            <input type="checkbox" th:name="enseignantIds" th:value="${enseignant.idPersonnel}">
+                                                            <span class="checkmark"></span>
+                                                            <span th:text="${enseignant.nom + ' ' + enseignant.prenom}"></span>
+                                                        </label>
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary" onclick="applySelection()">Apply</button>
+                                                    <button type="reset" class="btn btn-grey">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="student-submit">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script th:src="@{/resources/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/feather.min.js}"></script>
+<script th:src="@{/resources/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/resources/js/script.js}"></script>
+<script th:src="@{/assets/plugins/datatables/datatables.min.js}"></script>
+
+<script>
+    function toggleCritereOptions() {
+        const critere = document.getElementById('critere').value;
+        document.getElementById('departementSelect').style.display = critere === 'departement' ? 'block' : 'none';
+        document.getElementById('filiereSelect').style.display = critere === 'filiere' ? 'block' : 'none';
+        document.getElementById('arbitraireSelect').style.display = critere === 'arbitraire' ? 'block' : 'none';
+    }
+
+    function showCheckboxes() {
+        const checkboxes = document.getElementById("checkBoxes-one");
+        if (checkboxes.style.display === "block") {
+            checkboxes.style.display = "none";
+        } else {
+            checkboxes.style.display = "block";
+        }
+    }
+
+    function applySelection() {
+        const checkboxes = document.querySelectorAll('#checkBoxes-one input[type="checkbox"]');
+        const selected = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+        const selectedValues = selected.map(checkbox => checkbox.value).join(', ');
+        console.log("Selected Enseignants:", selectedValues);
+        // Vous pouvez ajouter une logique supplémentaire ici pour traiter la sélection
+    }
+</script>
+</body>
+</html>

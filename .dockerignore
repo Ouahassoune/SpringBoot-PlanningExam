@@ -1,0 +1,32 @@
+# Ignorer le répertoire de build de Maven
+target/
+
+# Ignorer les fichiers de configuration de l'IDE
+.idea/
+*.iml
+*.log
+
+# Ignorer les fichiers de configuration de l'éditeur
+.vscode/
+
+# Ignorer les fichiers de contrôle de version
+.git/
+.gitignore
+
+# Ignorer les fichiers temporaires et de sauvegarde
+*.swp
+*~
+#*#
+
+# Ignorer les fichiers de cache
+.cache/
+node_modules/
+
+# Ignorer les fichiers de configuration spécifiques à l'utilisateur
+*.env
+.DS_Store
+
+# Ignorer les fichiers d'archive
+*.zip
+*.tar
+*.gz

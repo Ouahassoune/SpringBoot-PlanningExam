@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Add Exam</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" th:href="@{/resources/plugins/datatables/datatables.min.css}">
+    <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/feather/feather.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/icons/flags/flags.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/plugins/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/resources/css/style.css}" rel="stylesheet">
+
+
+    <link rel="shortcut icon" th:href="@{/resources/img/favicon.png}">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/plugins/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/feather/feather.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/icons/flags/flags.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/icons/feather/feather.css}">
+    <link rel="stylesheet" th:href="@{/resources/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+
+
+
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+
+    <div th:replace="/admin/fragmento :: header"></div>
+    <div th:replace="/admin/fragmento :: sidebar"></div>
+
+
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Edit Exam</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="exam.html">Exam</a></li>
+                            <li class="breadcrumb-item active">Edit Exam</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                                <form th:action="@{/admin/update-exam}" th:object="${exam}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" th:value="${exam.idExam}" />
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="form-title"><span>Exam Information</span></h5>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="elementPedagogique">Element Pedagogique</label>
+                                            <select class="form-control" id="elementPedagogique" th:field="*{elementPedagogique.idEP}">
+                                                <option value="">Sélectionner un élément pédagogique</option>
+                                                <th:block th:each="elementPedagogique : ${elementPedagogiques}">
+                                                    <option th:value="${elementPedagogique.idEP}" th:text="${elementPedagogique.titre}" ></option>
+                                                </th:block>
+                                                <input type="hidden" name="elementPedagogique" th:value="${exam.elementPedagogique.idEP}" />
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="semestre">Semestre</label>
+                                            <select class="form-control" id="semestre" th:field="*{semestre.idSemestre}">
+                                                <option value="">Sélectionner un semestre</option>
+                                                <th:block th:each="semestre : ${semestres}">
+                                                    <option th:value="${semestre.idSemestre}" th:text="${semestre.intitule}"
+                                                            th:selected="${semestre.idSemestre == exam.semestre.idSemestre}"></option>
+                                                </th:block>
+                                                <input type="hidden" name="semestre" th:value="${exam.semestre.idSemestre}" />
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="typeExamen">Type</label>
+                                            <select class="form-control" id="typeExamen" name="typeExamen.idTypeExam" th:value="*{typeExamen.idTypeExam}">
+                                                <option value="">Sélectionner un type</option>
+                                                <th:block th:each="typeExam : ${typeExams}">
+                                                    <option th:value="${typeExam.idTypeExam}" th:text="${typeExam.intitule}"
+                                                            th:selected="${typeExam.intitule == exam.typeExamen.intitule}"></option>
+                                                </th:block>
+                                                <input type="hidden" name="typeExam" th:value="${exam.typeExamen.idTypeExam}" />
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="examSession">Session</label>
+                                            <select class="form-control" id="examSession" name="session.idSession" th:value="*{session.idSession}">
+                                                <option value="">Sélectionner une session</option>
+                                                <th:block th:each="examSession : ${examSessions}">
+                                                    <option th:value="${examSession.idSession}" th:text="${examSession.intitule}"
+                                                            th:selected="${examSession.idSession == exam.session.idSession}"></option>
+                                                </th:block>
+                                                <input type="hidden" name="examSession" th:value="${exam.session.idSession}" />
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="startTime">Start Time</label>
+                                            <input type="time" class="form-control" id="startTime" name="startTime" th:value="*{heureDebut}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="expectedDuration">Expected Duration (in minutes)</label>
+                                            <input type="number" class="form-control" id="expectedDuration" name="expectedDuration">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="eventDate">Epreuve</label>
+                                            <input type="date" class="form-control" id="eventDate" name="eventDate" th:value="*{date}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="eventFile">PV</label>
+                                            <input type="file" class="form-control" id="eventFile" name="eventFile">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                                <label for="eventFile">Epreuve</label>
+                                            <input type="file" class="form-control" id="eventFile" name="epreuve">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="additionalField">Rapport</label>
+                                            <input type="text" class="form-control" id="additionalField" name="additionalField">
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Div pour sélectionner les salles -->
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label>Salles</label>
+                                            <div class="multipleSelection">
+                                                <div class="selectBox" onclick="toggleCheckboxes()">
+                                                    <p class="mb-0">Select Salle</p>
+                                                    <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                                                </div>
+                                                <div id="checkBoxes" style="display: none;">
+                                                    <p class="checkbox-title">Salle Search</p>
+                                                    <div class="form-custom">
+                                                        <input type="text" class="form-control bg-grey" placeholder="Enter Salle Name">
+                                                    </div>
+                                                    <div class="selectBox-cont" id="sallesContainer">
+                                                        <!-- Les salles disponibles seront affichées ici -->
+                                                        <input  name="salles" >
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="numberOfSurveillance">numberOfSurveillance</label>
+                                            <input type="number" class="form-control" id="numberOfSurveillance" name="numberOfSurveillance" >
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="col-13">
+
+                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script th:src="@{/resources/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/feather.min.js}"></script>
+<script th:src="@{/resources/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/resources/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/resources/js/script.js}"></script>
+<script th:src="@{/resources/plugins/datatables/datatables.min.js}"></script>
+
+
+
+
+
+
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        // Détermine la valeur par défaut en fonction de la date système
+        var today = new Date();
+        var month = today.getMonth() + 1; // Les mois sont de 0 à 11
+        var defaultSemestre = (month >= 3 && month <= 8) ? 'printemps' : 'automne';
+
+        // Sélectionne l'option par défaut
+        $('#semestre option').each(function() {
+            if ($(this).text().toLowerCase() === defaultSemestre) {
+                $(this).prop('selected', true);
+            }
+        });
+
+
+        // Sélectionne l'option par défaut pour la session (normale)
+
+
+
+
+
+});
+    /*]]>*/
+</script>
+<!-- Script JavaScript pour gérer la requête AJAX et la conversion de date -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        function formatDateToYYYYMMDD(date) {
+            const [day, month, year] = date.split('-');
+            return `${year}-${month}-${day}`;
+        }
+
+        function fetchAvailableSalles() {
+            let date = $('#eventDate').val();
+            let startTime = $('#startTime').val();
+            let duration = $('#expectedDuration').val();
+
+            if (date && startTime && duration) {
+                // Convert date from dd-mm-yyyy to yyyy-mm-dd
+                let formattedDate = formatDateToYYYYMMDD(date);
+                let startDateTime = new Date(`${formattedDate}T${startTime}`);
+                let endDateTime = new Date(startDateTime.getTime() + duration * 60000);
+                let endTime = endDateTime.toTimeString().split(' ')[0];
+
+                $.ajax({
+                    url: /*[[@{/admin/availableSalles}]]*/,
+                    method: 'GET',
+                    data: {
+                        date: formattedDate,
+                        heureDebut: startTime,
+                        heureFin: endTime
+                    },
+                    success: function (data) {
+                        if (Array.isArray(data)) {
+                            $('#sallesContainer').empty();
+                            data.forEach(function (salle) {
+                                $('#sallesContainer').append(
+                                    `<label class="custom_check w-100">
+                                        <input type="checkbox" id="salle${salle.idSalle}" name="salles" value="${salle.idSalle}">
+                                        <span class="checkmark"></span>
+                                        <span>${salle.nomSalle}</span>
+                                     </label>`
+                                );
+                            });
+                        } else {
+                            console.error("La réponse n'est pas une liste d'objets", data);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Une erreur s'est produite: " + status, error);
+                    }
+                });
+            }
+        }
+
+        $('#eventDate, #startTime, #expectedDuration').on('change', fetchAvailableSalles);
+
+        window.toggleCheckboxes = function () {
+            var checkboxes = document.getElementById("checkBoxes");
+            if (checkboxes.style.display === "none") {
+                checkboxes.style.display = "block";
+            } else {
+                checkboxes.style.display = "none";
+            }
+        }
+    });
+    /*]]>*/
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Script d'initialisation -->
+
+</body>
+
+</html>
